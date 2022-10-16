@@ -1,4 +1,0 @@
- 2022-10-17 02:32:05 INFO: initializing ciphers... aes-256-gcm
- 2022-10-17 02:32:05 INFO: listening at 127.0.0.1:1081
- 2022-10-17 02:32:05 ERROR: bind: Address already in use
- 2022-10-17 02:32:05 ERROR: bind() error
