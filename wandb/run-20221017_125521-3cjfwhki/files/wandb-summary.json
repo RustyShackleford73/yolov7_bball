@@ -1,1 +1,0 @@
-{"Labels": {"_type": "images/separated", "width": 1600, "height": 1600, "format": "jpg", "count": 2, "filenames": ["media/images/Labels_0_78a020c13d53155e00f7.jpg", "media/images/Labels_0_55b6bab8823693865d90.jpg"], "captions": ["labels.jpg", "labels_correlogram.jpg"]}, "_timestamp": 1665984291.1444194, "_runtime": 1769.747126340866, "_step": 0, "_wandb": {"runtime": 1771}}
