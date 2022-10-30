@@ -205,7 +205,7 @@ class ComputeLoss:
             anchors = self.anchors[i]
             if self.kpt_label:
                 # gain[2:40] = torch.tensor(p[i].shape)[19*[3, 2]]  # xyxy gain
-                gain[2:self.nkpt*2 +7 -1] = torch.tensor(p[i].shape)[(2+self.kpt_num)*[3, 2]]  # xyxy gain
+                gain[2:self.nkpt*2 +7 -1] = torch.tensor(p[i].shape)[(2+self.nkpt)*[3, 2]]   # xyxy gain
             else:
                 gain[2:6] = torch.tensor(p[i].shape)[[3, 2, 3, 2]]  # xyxy gain
 
