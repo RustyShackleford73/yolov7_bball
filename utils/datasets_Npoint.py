@@ -494,13 +494,14 @@ class LoadImagesAndLabels(Dataset):  # for training/testing
                     nf += 1  # label found
                     with open(lb_file, 'r') as f:
                         # lines = list(line for line in f.read().strip().splitlines() if line)
-                        l = [x.split() for x in f.read().strip().splitlines() if x][0]
+                        l = [x.split() for x in f.read().strip().splitlines() if x]
                         for idx, lab in enumerate(l):
-                            if len(lab) == 5 and lab[0] == '1': # if is ball
-                                l[idx].extend([0]* 3 * self.kpt_num)
-
-                        l = l[:6] + l[10:]
-
+                            if len(lab) == 5: # if is ball
+                                l[idx].extend([0]* 3 * 17)
+                            else:
+                                print('error')
+                                print(l)
+                                exit()
                         if any([len(x) > 8 for x in l]) and not kpt_label:  # is segment
                             classes = np.array([x[0] for x in l], dtype=np.float32)
                             segments = [np.array(x[1:], dtype=np.float32).reshape(-1, 2) for x in l]  # (cls, xy1...)
@@ -509,18 +510,18 @@ class LoadImagesAndLabels(Dataset):  # for training/testing
                     if len(l):
                         assert (l >= 0).all(), 'negative labels'
                         if kpt_label:
-                            assert l.shape[1] == self.kpt_num * 3 + 5, 'labels require 56 columns each'
+                            assert l.shape[1] == 56, 'labels require 56 columns each'
                             # assert l.shape[1] >= 5 + 2 * self.kpt_num, 'labels require 5 + 3* kpt_num columns each'
                             assert (l[:, 5::3] <= 1).all(), 'non-normalized or out of bounds coordinate labels'
                             assert (l[:, 6::3] <= 1).all(), 'non-normalized or out of bounds coordinate labels'
                             # print("l shape", l.shape)
                             # kpts = np.zeros((l.shape[0], 51))
-                            kpts = np.zeros((l.shape[0], 5 + 2 * self.kpt_num))
+                            kpts = np.zeros((l.shape[0], 5 + 2 * 17))
                             for i in range(len(l)):
                                 kpt = np.delete(l[i,5:], np.arange(2, l.shape[1]-5, 3))   # [:2*self.kpt_num]  #remove the occlusion paramater from the GT
                                 kpts[i] = np.hstack((l[i, :5], kpt))
                             l = kpts
-                            assert l.shape[1] == 5 + 2 * self.kpt_num, 'labels require 39 columns each after removing occlusion paramater'
+                            assert l.shape[1] == 5 + 2 * 17, 'labels require 39 columns each after removing occlusion paramater'
                         else:
                             assert l.shape[1] == 5, 'labels require 5 columns each'
                             assert (l[:, 1:5] <= 1).all(), 'non-normalized or out of bounds coordinate labels'
@@ -528,13 +529,13 @@ class LoadImagesAndLabels(Dataset):  # for training/testing
                         assert np.unique(l, axis=0).shape[0] == l.shape[0], 'duplicate labels'
                     else:
                         ne += 1  # label empty
-                        l = np.zeros((0, 5 + 2 * self.kpt_num), dtype=np.float32) if kpt_label else np.zeros((0, 5), dtype=np.float32)
+                        l = np.zeros((0, 5 + 2 * 17), dtype=np.float32) if kpt_label else np.zeros((0, 5), dtype=np.float32)
 
                 else:
                     nm += 1  # label missing
-                    l = np.zeros((0, 5 + 2 * self.kpt_num), dtype=np.float32) if kpt_label else np.zeros((0, 5), dtype=np.float32)
+                    l = np.zeros((0, 5 + 2 * 17), dtype=np.float32) if kpt_label else np.zeros((0, 5), dtype=np.float32)
 
-                x[im_file] = [l, shape, segments]
+                x[im_file] = [l[:, [*range(5), *range(15,39)]], shape, segments]
             except Exception as e:
                 nc += 1
                 print(f'{prefix}WARNING: Ignoring corrupted image and/or label {im_file}: {e}')
