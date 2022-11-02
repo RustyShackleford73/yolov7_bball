@@ -7,4 +7,4 @@ test: /home/wqg/pyproject/git/yolo/yolov7/weights/yolov7-pose-val.txt  # 20288 o
 nc: 2
 
 #names: [ 'person','person1','person2']
-names: [ 'person', 'sports ball']
+names: [ 'person', 'basketball']
