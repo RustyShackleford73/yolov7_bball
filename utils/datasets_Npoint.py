@@ -509,7 +509,7 @@ class LoadImagesAndLabels(Dataset):  # for training/testing
                     if len(l):
                         assert (l >= 0).all(), 'negative labels'
                         if kpt_label:
-                            assert l.shape[1] == 56, 'labels require 56 columns each'
+                            assert l.shape[1] == self.kpt_num * 3 + 5, 'labels require 56 columns each'
                             # assert l.shape[1] >= 5 + 2 * self.kpt_num, 'labels require 5 + 3* kpt_num columns each'
                             assert (l[:, 5::3] <= 1).all(), 'non-normalized or out of bounds coordinate labels'
                             assert (l[:, 6::3] <= 1).all(), 'non-normalized or out of bounds coordinate labels'
