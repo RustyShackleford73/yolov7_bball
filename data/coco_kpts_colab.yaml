@@ -4,7 +4,7 @@
 # train: /content/coco/train/images  # 118287 images
 # val: /content/coco/val/images  # 5000 images
 train: ../data/people_basketball_hoops/train/images  # 118287 images
-val: ../data/people_basketball_hoops//val/images  # 5000 images
+val: ../data/people_basketball_hoops//valid/images  # 5000 images
 test: /home/wqg/pyproject/git/yolo/yolov7/weights/yolov7-pose-val.txt  # 20288 of 40670 images, submit to https://competitions.codalab.org/competitions/20794
 
 # number of classes
