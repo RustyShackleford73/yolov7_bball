@@ -498,10 +498,7 @@ class LoadImagesAndLabels(Dataset):  # for training/testing
                         for idx, lab in enumerate(l):
                             if len(lab) == 5: # if is ball
                                 l[idx].extend([0]* 3 * 17)
-                            else:
-                                print('error')
-                                print(l)
-                                exit()
+
                         if any([len(x) > 8 for x in l]) and not kpt_label:  # is segment
                             classes = np.array([x[0] for x in l], dtype=np.float32)
                             segments = [np.array(x[1:], dtype=np.float32).reshape(-1, 2) for x in l]  # (cls, xy1...)
