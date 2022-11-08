@@ -116,7 +116,7 @@ def plot_skeleton_kpts(im, kpts, steps, orig_shape=None):
             # 如果点无穷大 直接绘制在 原点
             try:
                 cv2.circle(im, (int(x_coord), int(y_coord)), radius, (int(r), int(g), int(b)), -1)
-                cv2.putText(im, str(kid), (int(x_coord), int(y_coord)), cv2.FONT_HERSHEY_SIMPLEX, 10, (0, 0, 255), 1)
+                cv2.putText(im, str(kid), (int(x_coord), int(y_coord)), cv2.FONT_HERSHEY_SIMPLEX, 4, (0, 0, 255), 1)
             except:
                 cv2.circle(im, (int(0), int(0)), radius, (int(r), int(g), int(b)), -1)
 
