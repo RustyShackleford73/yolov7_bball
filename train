@@ -1,1 +1,1 @@
-python train_Ncla_nPoint.py --data data/coco_kpts.yaml --cfg cfg/yolov7-w6-pose.yaml --weights ../yolov7-w6-person.pt --workers 4 --batch-size 4 --img 640 --kpt-label true --sync-bn true --device 0 --name yolov7-ball --hyp data/hyp.pose.yaml
+python train_Ncla_nPoint.py --name tiny --epochs 300 --data data/coco_kpts_local.yaml --cfg cfg/yolov7-tiny-pose.yaml --weights ../yolov7-tiny.pt --workers 8 --batch-size 8 --img 640 --kpt-label true --sync-bn true --device 0 --hyp data/hyp.pose12.yaml
