@@ -495,9 +495,9 @@ class LoadImagesAndLabels(Dataset):  # for training/testing
                     with open(lb_file, 'r') as f:
                         # lines = list(line for line in f.read().strip().splitlines() if line)
                         l = [x.split() for x in f.read().strip().splitlines() if x]
-                        for idx, lab in enumerate(l):
-                            if len(lab) == 5: # if is ball
-                                l[idx].extend([0]* 3 * 17)
+                        # for idx, lab in enumerate(l):
+                        #     if len(lab) == 5: # if is ball
+                        #         l[idx].extend([0]* 3 * 17)
 
                         if any([len(x) > 8 for x in l]) and not kpt_label:  # is segment
                             classes = np.array([x[0] for x in l], dtype=np.float32)
