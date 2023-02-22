@@ -64,6 +64,7 @@ def detect(opt):
     if device.type != 'cpu':
         model(torch.zeros(1, 3, imgsz, imgsz).to(device).type_as(next(model.parameters())))  # run once
     t0 = time.time()
+    total_line = ''
     for path, img, im0s, vid_cap in dataset:
         img = torch.from_numpy(img).to(device)
         img = img.half() if half else img.float()  # uint8 to fp16/32
@@ -111,9 +112,15 @@ def detect(opt):
                 for det_index, (*xyxy, conf, cls) in enumerate(det[:,:6]):
                     if save_txt:  # Write to file
                         xywh = (xyxy2xywh(torch.tensor(xyxy).view(1, 4)) / gn).view(-1).tolist()  # normalized xywh
-                        line = (cls, *xywh, conf) if opt.save_conf else (cls, *xywh)  # label format
-                        with open(txt_path + '.txt', 'a') as f:
-                            f.write(('%g ' * len(line)).rstrip() % line + '\n')
+                        # line = (cls, *xywh, conf) if opt.save_conf else (cls, *xywh, *det[det_index, 6:])  # label format
+                        tmp_line = det[det_index, 6:].tolist()
+                        del tmp_line[2::3]
+                        tmp_line = (frame, *tmp_line)
+                        # tmp_line = tuple(str(i) for i in tmp_line)
+                        line = (cls, *xywh, conf) if opt.save_conf else tmp_line  # label format
+                        total_line = total_line + ('%g ' * len(line)).rstrip() % line + '\n'
+                        # with open(txt_path + '.txt', 'a') as f:
+                        #     f.write(('%g ' * len(line)).rstrip() % line + '\n')
 
                     if save_img or opt.save_crop or view_img:  # Add bbox to image
                         c = int(cls)  # integer class
@@ -157,6 +164,10 @@ def detect(opt):
                             save_path += '.mp4'
                         vid_writer = cv2.VideoWriter(save_path, cv2.VideoWriter_fourcc(*'mp4v'), fps, (w, h))
                     vid_writer.write(im0)
+    print(total_line)
+    with open(str(save_dir / p.stem) + '.txt', 'w') as f:
+        f.write(total_line)
+
 
     if save_txt or save_txt_tidl or save_img:
         s = f"\n{len(list(save_dir.glob('labels/*.txt')))} labels saved to {save_dir / 'labels'}" if save_txt or save_txt_tidl else ''

@@ -262,10 +262,11 @@ class WandbLogger():
             box_data = []
             total_conf = 0
             for *xyxy, conf, cls in predn.tolist():
+                cls = int(cls)
                 if conf >= 0.25:
                     box_data.append(
                         {"position": {"minX": xyxy[0], "minY": xyxy[1], "maxX": xyxy[2], "maxY": xyxy[3]},
-                         "class_id": int(cls),
+                         "class_id": cls,
                          "box_caption": "%s %.3f" % (names[cls], conf),
                          "scores": {"class_score": conf},
                          "domain": "pixel"})

@@ -99,8 +99,7 @@ def test(data,
             model(torch.zeros(1, 3, imgsz, imgsz).to(device).type_as(next(model.parameters())))  # run once
         task = opt.task if opt.task in ('train', 'val', 'test') else 'val'  # path to train/val/test images
         dataloader = create_dataloader(data[task], imgsz, batch_size, gs, opt, pad=0.5, rect=True,
-                                       prefix=colorstr(f'{task}: '), tidl_load=tidl_load, kpt_label=kpt_label
-                                       ,kpt_num=model.yaml['nkpt'])[0]
+                                       prefix=colorstr(f'{task}: '), tidl_load=tidl_load, kpt_label=kpt_label, kpt_num=model.yaml['nkpt'])[0]
 
     seen = 0
     confusion_matrix = ConfusionMatrix(nc=nc)
@@ -272,7 +271,7 @@ def test(data,
         if plots and batch_i < 3000:
             f = save_dir / f'{path.stem}_labels.jpg'  # labels
             #Thread(target=plot_images, args=(img, targets, paths, f, names), daemon=True).start()
-            plot_images(img, targets, paths, f, names, kpt_label=kpt_label, kpt_num=model.yaml['nkpt'],orig_shape=shapes[si])
+            plot_images(img, targets, paths, f, names, kpt_label=kpt_label, kpt_num=model.yaml['nkpt'], orig_shape=shapes[si])
             f = save_dir / f'{path.stem}_pred.jpg'  # predictions
             #Thread(target=plot_images, args=(img, output_to_target(out), paths, f, names), daemon=True).start()
             plot_images(img, output_to_target(out), paths, f, names, kpt_label=kpt_label, steps=3, kpt_num=model.yaml['nkpt'],orig_shape=shapes[si])
